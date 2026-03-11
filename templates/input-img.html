@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neuropredict - Analysis Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0D9488',    // Teal 600
+                        secondary: '#0F172A',  // Slate 900
+                        surface: '#F8FAFC',    // Slate 50
+                        accent: '#14B8A6',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/c1df782baf.js" crossorigin="anonymous"></script>
+    <style>
+        .upload-area.dragover {
+            background-color: #f0fdfa; /* teal-50 */
+            border-color: #0d9488;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased bg-slate-50 text-slate-800 h-screen flex flex-col overflow-hidden">
+
+    <!-- Top Navigation Dashboard Style -->
+    <header class="bg-white border-b border-slate-200 py-3 px-6 flex justify-between items-center shrink-0 z-10">
+        <a href="/" class="flex items-center gap-2">
+            <div class="bg-primary/10 p-1.5 rounded-lg text-primary">
+                <i class="fa-solid fa-brain"></i>
+            </div>
+            <span class="font-heading font-bold text-xl text-secondary tracking-tight">Neuro<span class="text-primary">predict</span></span>
+        </a>
+        
+        <div class="flex items-center gap-4">
+            <div class="hidden sm:flex items-center gap-2 text-sm text-slate-500 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
+                <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                Engine Online
+            </div>
+            <a href="/logout" class="text-slate-500 hover:text-red-500 transition-colors cursor-pointer" title="Log Out"><i class="fa-solid fa-right-from-bracket text-lg"></i></a>
+        </div>
+    </header>
+
+    <div class="flex flex-1 overflow-hidden">
+        
+        <!-- Sidebar -->
+        <aside class="w-20 lg:w-64 bg-secondary text-slate-300 flex flex-col hidden sm:flex shrink-0 transition-all duration-300">
+            <nav class="flex-1 py-8 px-4 space-y-2">
+                <a href="/analyze" class="flex items-center gap-4 px-4 py-3 bg-teal-500/10 text-teal-400 rounded-xl transition-colors border border-teal-500/20">
+                    <i class="fa-solid fa-microscope text-xl"></i>
+                    <span class="font-medium hidden lg:block tracking-wide">Analysis</span>
+                </a>
+                <a href="/patient-info" class="flex items-center gap-4 px-4 py-3 hover:bg-white/5 hover:text-white rounded-xl transition-colors">
+                    <i class="fa-regular fa-user text-xl w-5 text-center"></i>
+                    <span class="font-medium hidden lg:block tracking-wide">Patient Profile</span>
+                </a>
+                <a href="/more-info" class="flex items-center gap-4 px-4 py-3 hover:bg-white/5 hover:text-white rounded-xl transition-colors mt-8">
+                    <i class="fa-regular fa-circle-question text-xl w-5 text-center"></i>
+                    <span class="font-medium hidden lg:block tracking-wide">Help & Info</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-y-auto bg-surface p-4 sm:p-8 relative">
+            
+            <div class="max-w-5xl mx-auto">
+                <div class="mb-8">
+                    <h1 class="font-heading text-3xl font-bold text-secondary mb-2">MRI Scan Analysis</h1>
+                    <p class="text-slate-500">Upload a T1/T2 weighted MRI image to run the AI tumor classification sequence.</p>
+                </div>
+
+                <!-- Flask Flash Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                  {% if messages %}
+                    {% for category, message in messages %}
+                      <div class="mb-6 mx-auto p-4 rounded-xl text-sm font-medium {% if category == 'success' %}bg-teal-50 text-teal-700 border border-teal-200{% else %}bg-red-50 text-red-700 border border-red-200{% endif %}">
+                        {{ message }}
+                      </div>
+                    {% endfor %}
+                  {% endif %}
+                {% endwith %}
+
+                <div class="grid lg:grid-cols-2 gap-8">
+                    
+                    <!-- Left: Upload Section -->
+                    <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200 flex flex-col justify-between h-full">
+                        
+                        <form id="uploadForm" method="POST" action="/analyze" enctype="multipart/form-data" class="flex flex-col h-full">
+                            <div class="flex-grow">
+                                <h3 class="font-heading font-semibold text-lg text-slate-800 mb-4">Select Target Image</h3>
+                                
+                                <!-- Custom Drag & Drop Zone -->
+                                <div id="drop-zone" class="upload-area border-2 border-dashed border-slate-300 rounded-2xl bg-slate-50 hover:bg-teal-50 hover:border-teal-300 transition-all cursor-pointer p-8 flex flex-col items-center justify-center text-center relative h-64 group">
+                                    <input type="file" id="file" name="file" accept="image/*" required class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                                    
+                                    <div class="bg-white w-16 h-16 rounded-full shadow-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                        <i class="fa-solid fa-cloud-arrow-up text-2xl text-primary"></i>
+                                    </div>
+                                    <p class="font-medium text-slate-700 mb-1">Click to upload or drag and drop</p>
+                                    <p class="text-xs text-slate-400 max-w-[200px]">PNG, JPG, JPEG (Max. 10MB)</p>
+                                    
+                                    <!-- Selected filename display overlay -->
+                                    <div id="file-name-overlay" class="absolute inset-x-4 bottom-4 bg-white/90 backdrop-blur-sm border border-slate-200 py-2 px-3 rounded-lg flex items-center gap-2 opacity-0 transition-opacity pointer-events-none">
+                                        <i class="fa-regular fa-image text-primary"></i>
+                                        <span id="selected-file-name" class="text-sm font-medium text-slate-700 truncate w-full text-left"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="mt-8 w-full bg-secondary hover:bg-slate-800 text-white py-3.5 rounded-xl font-semibold transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-microchip"></i> Run Diagnostics
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Right: Results & Preview Section -->
+                    <div class="flex flex-col gap-6 h-full">
+                        
+                        <!-- Prediction Card -->
+                        <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 flex-none relative overflow-hidden">
+                            <h3 class="font-heading font-semibold text-lg text-slate-800 mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-clipboard-check text-slate-400"></i> Diagnosis Report
+                            </h3>
+                            
+                            {% if result %}
+                                <div class="relative z-10">
+                                    <div class="flex justify-between items-end mb-2">
+                                        <p class="text-sm font-medium text-slate-500 uppercase tracking-widest">Detected Class</p>
+                                        <span class="px-2.5 py-1 bg-teal-100 text-teal-800 text-xs font-bold rounded-md">{{ confidence }}% Confidence</span>
+                                    </div>
+                                    <div class="text-3xl font-heading font-bold {% if result == 'No Tumor' %}text-teal-600{% else %}text-red-500{% endif %} mb-4">
+                                        {{ result }}
+                                    </div>
+                                    
+                                    <!-- Confidence Bar -->
+                                    <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden mb-6">
+                                        <div class="h-full {% if result == 'No Tumor' %}bg-teal-500{% else %}bg-red-500{% endif %} rounded-full transition-all duration-1000 w-0" id="confidence-bar" data-width="{{ confidence }}%"></div>
+                                    </div>
+
+                                    <div class="grid grid-cols-2 gap-4 mt-6">
+                                        <a href="{{ url_for('more_info') }}" class="py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-sm font-semibold text-center transition-colors">
+                                            Treatment Info
+                                        </a>
+                                        <button class="py-2.5 px-4 bg-white border border-slate-200 hover:border-slate-300 text-slate-700 rounded-xl text-sm font-semibold text-center transition-colors flex items-center justify-center gap-2">
+                                            <i class="fa-solid fa-download"></i> Save PDF
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- Result Background Decor -->
+                                <div class="absolute right-0 top-0 w-32 h-32 {% if result == 'No Tumor' %}bg-teal-50{% else %}bg-red-50{% endif %} rounded-bl-[100px] -z-0"></div>
+                            {% else %}
+                                <div class="flex flex-col items-center justify-center py-6 text-center h-full">
+                                    <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-3">
+                                        <i class="fa-solid fa-hourglass-empty text-2xl text-slate-300"></i>
+                                    </div>
+                                    <p class="text-slate-500 text-sm">Awaiting scan input to generate diagnostic report.</p>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Scan Preview Card -->
+                        <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 flex-grow flex flex-col min-h-[300px]">
+                            <h3 class="font-heading font-semibold text-lg text-slate-800 mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-eye text-slate-400"></i> Scan Preview
+                            </h3>
+                            
+                            <div class="flex-grow bg-slate-900 rounded-2xl flex items-center justify-center overflow-hidden border border-slate-800 relative group">
+                                <!-- Grid overlay for tech effect -->
+                                <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+                                
+                                {% if file %}
+                                    <img id="previewImage" src="{{ file }}" alt="Uploaded Image" class="max-w-full max-h-[300px] object-contain relative z-10 transition-transform duration-500 group-hover:scale-105">
+                                {% else %}
+                                    <!-- Fallback visualization -->
+                                    <div id="previewFallback" class="text-center relative z-10">
+                                        <i class="fa-regular fa-image text-slate-600 text-5xl mb-3 block"></i>
+                                        <span class="text-slate-500 text-sm font-medium">No active scan view</span>
+                                    </div>
+                                    <img id="previewImage" src="#" alt="Uploaded Image" class="max-w-full max-h-[300px] object-contain relative z-10 hidden transition-transform duration-500 group-hover:scale-105">
+                                {% endif %}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Drag and Drop & File Select Logic
+        const fileInput = document.getElementById("file");
+        const dropZone = document.getElementById("drop-zone");
+        const fileNameOverlay = document.getElementById("file-name-overlay");
+        const selectedFileName = document.getElementById("selected-file-name");
+        
+        // Preview Logic
+        const previewImage = document.getElementById("previewImage");
+        const previewFallback = document.getElementById("previewFallback");
+
+        fileInput.addEventListener("change", function (event) {
+            let file = event.target.files[0];
+            handleFile(file);
+        });
+
+        function handleFile(file) {
+            if (file) {
+                // Update Name
+                selectedFileName.innerText = file.name;
+                fileNameOverlay.classList.remove('opacity-0');
+                
+                // Read & Update Preview
+                let reader = new FileReader();
+                reader.onload = function (e) {
+                    previewImage.src = e.target.result;
+                    previewImage.classList.remove('hidden');
+                    if(previewFallback) previewFallback.classList.add('hidden');
+                    sessionStorage.setItem("uploadedImage", e.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Handle page load session image persistence
+        window.onload = function () {
+            let savedImage = sessionStorage.getItem("uploadedImage");
+            // Only restore if we aren't showing a server-rendered result file right now
+            // If the template variable "file" is present, previewImage.src is set to the real file path by jinja.
+            if (savedImage && previewImage.getAttribute('src') === '#') {
+                previewImage.src = savedImage;
+                previewImage.classList.remove('hidden');
+                if(previewFallback) previewFallback.classList.add('hidden');
+            }
+
+            // Animate confidence bar if exists
+            const confBar = document.getElementById('confidence-bar');
+            if(confBar) {
+                setTimeout(() => {
+                    confBar.style.width = confBar.getAttribute('data-width');
+                }, 300);
+            }
+        };
+
+        // Drag and drop styles
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+        dropZone.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+        });
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                fileInput.files = e.dataTransfer.files;
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+    </script>
+</body>
+</html>

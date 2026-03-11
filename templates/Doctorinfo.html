@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neuropredict - Doctor Registration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0D9488',    // Teal 600
+                        secondary: '#0F172A',  // Slate 900
+                        surface: '#F8FAFC',    // Slate 50
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/c1df782baf.js" crossorigin="anonymous"></script>
+</head>
+<body class="font-sans antialiased bg-slate-50 text-slate-800 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+
+    <!-- Top branding -->
+    <div class="max-w-3xl mx-auto text-center mb-10">
+        <a href="/" class="inline-flex items-center gap-2 mb-6">
+            <div class="bg-primary/10 p-2 rounded-xl text-primary">
+                <i class="fa-solid fa-user-doctor text-xl"></i>
+            </div>
+            <span class="font-heading font-bold text-2xl text-secondary tracking-tight">Physician <span class="text-primary">Portal</span></span>
+        </a>
+        <h2 class="font-heading text-3xl font-bold text-secondary mb-3">Professional Verification</h2>
+        <p class="text-slate-500 max-w-xl mx-auto">Please provide your credentials. This information is required to access patient data and analysis results securely.</p>
+    </div>
+
+    <!-- Main Registration Card -->
+    <div class="max-w-2xl mx-auto bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
+        
+        <div class="bg-slate-900 border-b border-white/10 p-6 flex items-center gap-4 relative overflow-hidden">
+            <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] mix-blend-overlay"></div>
+            <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white backdrop-blur-sm border border-white/20 relative z-10">
+                <i class="fa-solid fa-id-card-clip text-xl"></i>
+            </div>
+            <div class="relative z-10 text-white">
+                <h3 class="font-heading font-medium text-lg">Step 1 of 2</h3>
+                <p class="text-sm text-slate-400">Complete your profile to proceed with account setup.</p>
+            </div>
+        </div>
+
+        <div class="p-8 md:p-10">
+            <form id="doctorForm" action="/doctorinfo" method="POST" enctype="multipart/form-data" class="space-y-6">
+
+                <!-- Personal Info Section -->
+                <div class="space-y-6">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-slate-700 mb-1">Full Legal Name</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fa-regular fa-user text-slate-400"></i>
+                            </div>
+                            <input type="text" id="name" name="name" required 
+                                class="block w-full pl-10 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors hover:bg-white outline-none" 
+                                placeholder="Dr. Jane Doe">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-slate-700 mb-1">Contact Email</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fa-regular fa-envelope text-slate-400"></i>
+                                </div>
+                                <input type="email" id="email" name="email" required 
+                                    class="block w-full pl-10 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors hover:bg-white outline-none" 
+                                    placeholder="doctor@hospital.org">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-slate-700 mb-1">Phone Number</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fa-solid fa-phone text-slate-400"></i>
+                                </div>
+                                <input type="tel" id="phone" name="phone" required 
+                                    class="block w-full pl-10 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors hover:bg-white outline-none" 
+                                    placeholder="(555) 123-4567">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="border-slate-100">
+
+                <!-- Professional Credentials Section -->
+                <div>
+                    <h4 class="font-heading font-medium text-slate-800 mb-4">Professional Verification</h4>
+                    
+                    <div class="mb-5">
+                        <label for="license" class="block text-sm font-medium text-slate-700 mb-1">Medical License Number</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fa-solid fa-certificate text-slate-400"></i>
+                            </div>
+                            <input type="text" id="license" name="license" required 
+                                class="block w-full pl-10 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors hover:bg-white outline-none" 
+                                placeholder="MD-XXXX-XXXX">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Photo Upload -->
+                        <div class="bg-slate-50 border border-dashed border-slate-300 rounded-2xl p-6 text-center hover:bg-slate-100 transition-colors">
+                            <i class="fa-regular fa-image text-3xl text-primary mb-3"></i>
+                            <label for="photo" class="block text-sm font-medium text-slate-900 cursor-pointer">
+                                Upload ID Photo <span class="text-primary font-semibold">Browse</span>
+                            </label>
+                            <input type="file" id="photo" name="photo" accept="image/*" required class="hidden" onchange="updateFileName(this, 'photo-name')">
+                            <p id="photo-name" class="text-xs text-slate-500 mt-2 truncate">PNG, JPG up to 5MB</p>
+                        </div>
+
+                        <!-- Signature Upload -->
+                        <div class="bg-slate-50 border border-dashed border-slate-300 rounded-2xl p-6 text-center hover:bg-slate-100 transition-colors">
+                            <i class="fa-solid fa-signature text-3xl text-primary mb-3"></i>
+                            <label for="signature" class="block text-sm font-medium text-slate-900 cursor-pointer">
+                                Upload Signature <span class="text-primary font-semibold">Browse</span>
+                            </label>
+                            <input type="file" id="signature" name="signature" accept="image/*" required class="hidden" onchange="updateFileName(this, 'sig-name')">
+                            <p id="sig-name" class="text-xs text-slate-500 mt-2 truncate">PNG, JPG up to 2MB</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-6">
+                    <button type="submit" class="w-full bg-primary hover:bg-teal-700 text-white font-semibold py-3.5 px-4 rounded-xl transition-all shadow-lg shadow-teal-500/30 hover:shadow-teal-500/50 hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                        Verify Credentials <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </button>
+                    <p class="mt-4 text-center text-xs text-slate-500 max-w-xs mx-auto">By continuing, you attest that the information provided is completely accurate and true.</p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function updateFileName(input, textId) {
+            const fileName = input.files[0] ? input.files[0].name : 'No file selected';
+            document.getElementById(textId).innerText = fileName;
+            document.getElementById(textId).classList.add('text-teal-600', 'font-medium');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+body{
+    font-family: 'Arial',sans-serif;
+    background:#f8f9fa;
+}
+.container{
+    max-width:600px;
+    margin:0 auto;
+}
+.card{
+    border-radius: 15px;
+}
+.btn{
+    width: 60%;
+}
+.lead{
+    margin-bottom: 30px;
+}

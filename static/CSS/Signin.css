@@ -1,0 +1,87 @@
+.swiper-container{
+    height:30.9rem;
+    width: 700px;
+    border:7px solid white;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: auto;
+    margin-bottom: 25px;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.img_container{
+    width: 100%;
+    display: flex;
+    animation: slide 60s  linear infinite ;
+}
+
+img{
+    width: 100%;
+    height: 100vh;
+
+}
+
+@keyframes slide {
+    0%{
+        transform: translateX(0) ;
+    }
+    10%{
+        transform: translateX(0);
+    }
+    15%{
+        transform: translateX(-100%);
+    }
+    20%{
+        transform: translateX(-100%);
+    }
+    25%{
+        transform: translateX(-200%) ;
+    }
+    30%{
+        transform: translateX(-200%);
+    }
+    35%{
+        transform: translateX(-300%);
+    }
+    40%{
+        transform: translateX(-300%);
+    }
+    45%{
+        transform: translateX(-400%);
+    }
+    50%{
+        transform: translateX(-400%);
+    }
+    55%{
+        transform: translateX(-500%);
+    }
+    60%{
+        transform: translateX(-500%);
+    }
+    65%{
+        transform: translateX(-600%);
+    }
+    70%{
+        transform: translateX(-600%);
+    }
+    75%{
+        transform: translateX(-700%);
+    }
+    80%{
+        transform: translateX(-700%);
+    }
+    85%{
+        transform: translateX(-800%);
+    }
+    90%{
+        transform: translateX(-800%);
+    }
+    95%{
+        transform: translateX(-900%);
+    }
+    100%{
+        transform: translateX(-900%);
+    }
+}

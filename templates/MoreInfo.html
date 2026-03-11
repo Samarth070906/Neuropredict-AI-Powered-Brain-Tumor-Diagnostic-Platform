@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neuropredict - Information & Treatments</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0D9488',    // Teal 600
+                        secondary: '#0F172A',  // Slate 900
+                        surface: '#F8FAFC',    // Slate 50
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/c1df782baf.js" crossorigin="anonymous"></script>
+</head>
+<body class="font-sans antialiased bg-slate-50 text-slate-800 border-t-4 border-primary">
+    
+    <!-- Header -->
+    <header class="bg-white border-b border-slate-200 py-4 px-6 flex justify-between items-center sticky top-0 z-10">
+        <a href="/" class="flex items-center gap-2">
+            <div class="bg-primary/10 p-1.5 rounded-lg text-primary">
+                <i class="fa-solid fa-brain"></i>
+            </div>
+            <span class="font-heading font-bold text-xl text-secondary tracking-tight">Neuro<span class="text-primary">predict</span></span>
+        </a>
+        <a href="/analyze" class="text-sm font-semibold text-slate-600 hover:text-primary transition-colors flex items-center gap-2">
+            Back to Dashboard <i class="fa-solid fa-arrow-right"></i>
+        </a>
+    </header>
+
+    <main class="max-w-4xl mx-auto py-12 px-4 sm:px-6">
+        
+        <div class="text-center mb-12">
+            <h1 class="font-heading text-4xl font-bold text-secondary mb-4">Detailed Clinical Information</h1>
+            <p class="text-slate-500 max-w-2xl mx-auto text-lg">Understanding the AI classifications and general treatment guidelines for detected anomalies.</p>
+        </div>
+
+        <div class="space-y-8">
+            <!-- Glioma Card -->
+            <div class="bg-white rounded-3xl p-8 shadow-sm border border-slate-200 flex flex-col md:flex-row gap-8 items-start">
+                <div class="w-16 h-16 shrink-0 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center text-3xl">
+                    <i class="fa-solid fa-virus"></i>
+                </div>
+                <div>
+                    <h2 class="font-heading text-2xl font-bold text-secondary mb-3">Glioma</h2>
+                    <p class="text-slate-600 mb-4 leading-relaxed">Gliomas are a common type of tumor originating in the brain or spinal cord. They begin in the gluey supportive cells (glial cells) that surround nerve cells and help them function.</p>
+                    <h3 class="font-semibold text-slate-800 mb-2">Standard Treatment Approach:</h3>
+                    <ul class="list-disc pl-5 text-slate-600 space-y-1">
+                        <li>Surgical removal when possible (resection).</li>
+                        <li>Radiation therapy targeting the tumor bed.</li>
+                        <li>Chemotherapy (e.g., Temozolomide).</li>
+                        <li>Targeted drug therapy based on genetic profile.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Meningioma Card -->
+            <div class="bg-white rounded-3xl p-8 shadow-sm border border-slate-200 flex flex-col md:flex-row gap-8 items-start">
+                <div class="w-16 h-16 shrink-0 bg-orange-100 text-orange-600 rounded-2xl flex items-center justify-center text-3xl">
+                    <i class="fa-solid fa-shield-virus"></i>
+                </div>
+                <div>
+                    <h2 class="font-heading text-2xl font-bold text-secondary mb-3">Meningioma</h2>
+                    <p class="text-slate-600 mb-4 leading-relaxed">A meningioma is a tumor that arises from the meninges — the membranes that surround your brain and spinal cord. Most are noncancerous (benign), though rarely they can be malignant.</p>
+                    <h3 class="font-semibold text-slate-800 mb-2">Standard Treatment Approach:</h3>
+                    <ul class="list-disc pl-5 text-slate-600 space-y-1">
+                        <li>Active observation closely monitoring slow-growing tumors.</li>
+                        <li>Surgical excision for symptomatic or growing tumors.</li>
+                        <li>Radiosurgery for inaccessible or residual tumor fragments.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Pituitary Card -->
+            <div class="bg-white rounded-3xl p-8 shadow-sm border border-slate-200 flex flex-col md:flex-row gap-8 items-start">
+                <div class="w-16 h-16 shrink-0 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center text-3xl">
+                    <i class="fa-solid fa-head-side-virus"></i>
+                </div>
+                <div>
+                    <h2 class="font-heading text-2xl font-bold text-secondary mb-3">Pituitary Tumor</h2>
+                    <p class="text-slate-600 mb-4 leading-relaxed">These are abnormal growths that develop in your pituitary gland. Some pituitary tumors result in too many of the hormones that regulate important functions of your body.</p>
+                    <h3 class="font-semibold text-slate-800 mb-2">Standard Treatment Approach:</h3>
+                    <ul class="list-disc pl-5 text-slate-600 space-y-1">
+                        <li>Transsphenoidal surgery to remove the growth.</li>
+                        <li>Medication to block excess hormone secretion.</li>
+                        <li>Radiation therapy if surgery isn't viable.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Disclaimer -->
+            <div class="bg-teal-50 border border-teal-200 rounded-2xl p-6 text-sm text-teal-800 flex gap-4">
+                <i class="fa-solid fa-circle-info text-2xl shrink-0 mt-1"></i>
+                <p>
+                    <strong>Medical Disclaimer:</strong> The classifications provided by NeuroPredict are AI-assisted probabilities and are explicitly designed to aid licensed medical professionals. They do not constitute a definitive medical diagnosis. Always correlate AI findings with comprehensive clinical evaluation and biopsy results before initiating treatment plans.
+                </p>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
